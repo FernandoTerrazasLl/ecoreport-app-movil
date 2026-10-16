@@ -1,6 +1,8 @@
 package com.example.ecoreport.navigation
 
 import androidx.compose.runtime.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.*
 import com.example.ecoreport.data.ReporteEntity
@@ -18,7 +20,14 @@ fun AppNavigation(
     val navController =
         rememberNavController()
 
-    val viewModel: ReporteViewModel = viewModel()
+    val viewModel: ReporteViewModel = viewModel(
+        factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                @Suppress("UNCHECKED_CAST")
+                return ReporteViewModel(repository) as T
+            }
+        }
+    )
     val reportes =
         remember {
             mutableStateListOf<
@@ -119,6 +128,13 @@ fun AppNavigation(
                 reportes =
                     viewModel.reportes,
 
+                filtroActual =
+                    viewModel.filtroEstadoActual,
+
+                alFiltrarPorEstado = { nuevoEstado ->
+                    viewModel.filtrarPorEstado(nuevoEstado)
+                },
+
                 seleccionarReporte = { reporte ->
 
                     reporteSeleccionado =
@@ -170,7 +186,7 @@ fun AppNavigation(
 
             PantallaEstadisticas(
                 reportes =
-                    reportes,
+                    viewModel.reportes,
 
                 volver = {
 
