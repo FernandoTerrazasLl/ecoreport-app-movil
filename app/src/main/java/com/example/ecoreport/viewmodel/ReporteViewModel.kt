@@ -18,25 +18,29 @@ class ReporteViewModel (
     var filtroEstadoActual by mutableStateOf("TODOS")
         private set
 
+    var filtroCategoriaActual by mutableStateOf("")
+        private set
+
     init {
         cargarReportes()
     }
 
-    fun filtrarPorEstado(estado: String) {
+    fun filtrar(estado: String, categoria: String) {
         filtroEstadoActual = estado
+        filtroCategoriaActual = categoria
         viewModelScope.launch {
-            val datos = if (estado == "TODOS") {
-                repository.obtenerTodos()
-            } else {
-                repository.obtenerPorEstado(estado)
-            }
+            val datos = repository.filtrarReportes(estado, categoria.trim())
             reportes.clear()
             reportes.addAll(datos)
         }
     }
 
+    fun filtrarPorEstado(estado: String) {
+        filtrar(estado, filtroCategoriaActual)
+    }
+
     fun cargarReportes() {
-        filtrarPorEstado(filtroEstadoActual)
+        filtrar(filtroEstadoActual, filtroCategoriaActual)
     }
 
     fun insertar(reporte: ReporteEntity) {

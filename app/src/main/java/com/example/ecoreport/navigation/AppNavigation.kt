@@ -128,8 +128,15 @@ fun AppNavigation(
                 reportes =
                     viewModel.reportes,
 
-                filtroActual =
+                filtroEstadoActual =
                     viewModel.filtroEstadoActual,
+
+                filtroCategoriaActual =
+                    viewModel.filtroCategoriaActual,
+
+                alAplicarFiltros = { nuevoEstado, nuevaCategoria ->
+                    viewModel.filtrar(nuevoEstado, nuevaCategoria)
+                },
 
                 alFiltrarPorEstado = { nuevoEstado ->
                     viewModel.filtrarPorEstado(nuevoEstado)

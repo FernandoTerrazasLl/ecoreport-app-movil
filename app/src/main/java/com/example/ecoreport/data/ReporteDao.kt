@@ -34,6 +34,19 @@ interface ReporteDao {
         categoria: String
     ): List<ReporteEntity>
 
+    @Query(
+        """
+        SELECT * FROM reportes 
+        WHERE (:estado = 'TODOS' OR estado = :estado) 
+          AND (:categoria = '' OR LOWER(categoria) LIKE '%' || LOWER(:categoria) || '%') 
+        ORDER BY id DESC
+        """
+    )
+    suspend fun filtrarReportes(
+        estado: String,
+        categoria: String
+    ): List<ReporteEntity>
+
     @Update
     suspend fun actualizar(
         reporte: ReporteEntity

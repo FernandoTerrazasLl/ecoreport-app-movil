@@ -19,6 +19,10 @@ class ReporteRepository (
         return reporteDao.obtenerPorCategoria(categoria)
     }
 
+    suspend fun filtrarReportes(estado: String, categoria: String): List<ReporteEntity> {
+        return reporteDao.filtrarReportes(estado, categoria)
+    }
+
     suspend fun insertar(reporte: ReporteEntity){
         reporteDao.insertar(reporte)
     }
