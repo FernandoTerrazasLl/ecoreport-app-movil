@@ -6,22 +6,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
 
     private const val BASE_URL =
-        "https://6ae26521bbb541292299eb6e.mockapi.io/api/v1/"
+        "https://6ae26f63bbb541292299f35d.mockapi.io/api/v1/"
 
-    val api:
-            ReporteApiService by lazy {
-
+    val api: ReporteApiService by lazy {
         Retrofit.Builder()
-            .baseUrl(
-                BASE_URL
-            )
-            .addConverterFactory(
-                GsonConverterFactory
-                    .create()
-            )
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(
-                ReporteApiService::class.java
-            )
+            .create(ReporteApiService::class.java)
     }
 }
